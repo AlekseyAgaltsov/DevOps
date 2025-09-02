@@ -1,0 +1,29 @@
+sudo adduser name
+sudo groupadd devops
+sudo usermod -g devops tom
+sudo delgroup tom
+
+sudo usermog -G admin tom (перезапишет список групп)
+sudo usermog -aG admin tom (добавит список групп)
+groups tom
+
+su - tom
+
+1 - User (u)
+2 - Groups (g)
+3 - Other (o)
+
+sudo chmod -x api
+sudo chmod g-w config.yaml
+sudo chmod g=r-x config.yaml
+
+0 - No Permission   ---
+1 - Execute         --x
+2 - Write           -w-
+3 - E + W           -wx
+4 - R               r--
+5 - R + E           r-x
+6 - R + W           rw-
+7 - R + W + E       rwx
+
+sudo chmod 777 config.yaml

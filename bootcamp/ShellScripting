@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "Setup and config server"
+file_name=config.yaml
+echo "Using file $file_name to configure something"
+
+if [ condition ]
+then
+  statement
+else
+  statement
+fi
+
+sum=0
+while true
+  do
+    read -p "enter a score" score
+    if [ "$score" == "q" ]
+    then
+      break
+    fi
+    sum=$(($score+$sum))
+  done
+

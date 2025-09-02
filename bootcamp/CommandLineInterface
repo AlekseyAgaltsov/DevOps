@@ -4,3 +4,9 @@ uname -a
 cat /etc/os-release
 lscpu
 lsmem
+
+repository sources (/etc/apt/sources.list)
+
+history | grep sudo > sudo-commands
+history | greep rm >> sudo-commands (append in file)
+
