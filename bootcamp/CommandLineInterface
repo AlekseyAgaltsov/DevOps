@@ -10,3 +10,7 @@ repository sources (/etc/apt/sources.list)
 history | grep sudo > sudo-commands
 history | greep rm >> sudo-commands (append in file)
 
+ifconfig
+netstat
+ps aux
+nslookup google.com
