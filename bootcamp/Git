@@ -1,0 +1,3 @@
+git clone https://github.com/alekseyagaltsov/devops.git
+git status
+git checkout -b feature/database-connection #create new branch

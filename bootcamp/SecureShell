@@ -1,0 +1,5 @@
+ssh -i .ssh/id_rsa user@192.168.88.30
+ssh-keygen -t rsa
+
+scp -i .ssh/id_rsa test.sh user@192.168.88.30:/root #secure copy
+
