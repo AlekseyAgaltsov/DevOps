@@ -4,6 +4,21 @@ java -- JAR or WAR file
 
 - IntelliJ IDEA
 
-java - maven or gradle (./gradlew build)
-node.js - npm (Node Package Manager)
+java - maven (pom.xml) or gradle (./gradlew build)
+java -jar build/java-1.0-SNAPSHOT.jar
+
+node.js - npm (NodePackageManager) and yarn
+npm start
+npm stop
+npm test
+npm publish
+npm install (install dependencies)
+
+webpack for react(frontend)
+
+python application artifact to zip or tar (or Docker)
+
+Test:
+npm/yarn test
+gradle/mvn test
 
