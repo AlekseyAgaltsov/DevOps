@@ -14,3 +14,5 @@ ifconfig
 netstat
 ps aux
 nslookup google.com
+
+netstat -lpnt (show connections and ports)
