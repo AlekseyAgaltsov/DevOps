@@ -1,0 +1,3 @@
+sudo apt install openjdk-8-jre-headless
+sudo wget https://download.sonatype.com/nexus/3/nexus-3.84.0-03-linux-x86_64.tar.gz
+
