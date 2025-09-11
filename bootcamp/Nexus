@@ -1,3 +1,16 @@
 sudo apt install openjdk-8-jre-headless
 sudo wget https://download.sonatype.com/nexus/3/nexus-3.84.0-03-linux-x86_64.tar.gz
+sudo tar -zxvf nexus-3.84.0-03-linux-x86_64.tar.gz  /nexus
+
+sudo adduser nexus
+sudo chown -R nexus:nexus nexus
+sudo chown -R nexus:nexus sonatype-work
+
+echo nexus/bin/nexus.rc > run_as_user="nexus" (add)
+su - nexus
+
+/opt/nexus/bin/nexus start
+ps aux | grep nexus
+nestat -lnpt (apt install net-tool)
+
 
