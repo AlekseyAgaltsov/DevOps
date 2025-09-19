@@ -21,4 +21,3 @@ python application artifact to zip or tar (or Docker)
 Test:
 npm/yarn test
 gradle/mvn test
-
