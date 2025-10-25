@@ -1,0 +1,27 @@
+#GitlabCI
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+    - when: always
+
+stages:
+  - test
+  - build
+  - deploy
+
+run_tests:
+  only: #Выполнение только для основной ветки
+    - main
+  stage: test
+  needs:
+    - build_image
+  before_script:
+    - echo "preparing data.."
+  script:
+    - echo "test..."
+  after_script:
+    - echo "Clean temp files.."
+
+1:18:28
