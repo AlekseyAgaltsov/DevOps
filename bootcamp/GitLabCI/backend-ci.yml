@@ -1,0 +1,61 @@
+# backend/.backend-ci.yaml
+
+build_backend:
+    stage: build
+    script:
+        - mkdir -p ${CI_PROJECT_DIR}/.m2/repository
+        - cd backend
+        - mvn package
+        - mvn -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository install -B
+    artifacts:
+        paths:
+            - backend/pom.xml
+            - backend/target/
+            - ${CI_PROJECT_DIR}/.m2/repository
+    rules:
+        - changes:
+            - backend/**/*
+            
+semgrep-sast:
+  stage: test
+  needs:
+    - build_backend
+  variables:
+    COMPILE: "false"   
+    SAST_JAVA_VERSION: "16"
+    MAVEN_REPO_PATH: "${CI_PROJECT_DIR}/.m2/repository"
+  script:
+    - echo "Запуск SAST-анализа с помощью Semgrep"
+
+sonarqube-backend-sast:
+  stage: test
+  needs:
+    - build_backend
+  image: maven:3.8-openjdk-16
+  script:
+    - cd backend
+    - mvn clean verify sonar:sonar
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.projectKey=${SONAR_LOGIN_BACK}
+      -Dsonar.projectName="47_АЛЕКСЕЙАГАЛЬЦОВ_БЭКЕНД" 
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_PROJECT_KEY_BACK}
+
+notify_backend:
+  stage: notify
+  needs:
+    - build_backend
+  script:
+    - echo "Сборка завершена успешно!"
+    - |
+      curl -s -X POST "https://api.telegram.org/bot5933756043:AAG6cdxMAdOtN3-NQ9sfS4CdpGuS8ilASwA/sendMessage" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "chat_id": "-1003144027642",
+          "text": "std-047-08 Сборка backend завершена успешно!",
+          "parse_mode": "markdown"
+            }'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"  
+  when: always 
+

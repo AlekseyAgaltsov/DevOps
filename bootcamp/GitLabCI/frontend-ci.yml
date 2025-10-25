@@ -1,0 +1,49 @@
+# frontend/.frontend-ci.yml
+
+build_frontend:
+  stage: build
+  script:
+    - cd frontend
+    - npm install 
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend  
+  rules:
+    - changes:
+      - frontend/**/*
+
+sonarqube-frontend-sast:
+  stage: test
+  needs:
+    - build_frontend
+  image: sonarsource/sonar-scanner-cli:latest
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey=${SONAR_LOGIN_FRONT}
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_PROJECT_KEY_FRONT}
+      -Dsonar.sources=frontend/src
+      -Dsonar.exclusions=**/*.java,**/src/main/java/**,**/target/**,frontend/dist/**
+      -Dsonar.sourceEncoding=UTF-8
+      -Dsonar.typescript.file.suffixes=.ts,.tsx
+      -Dsonar.javascript.file.suffixes=.js,.jsx
+      -Dsonar.exclusions=frontend/e2e/**
+
+notify_front:
+  stage: notify
+  needs:
+    - build_frontend
+  script:
+    - echo "Сборка завершена успешно!"
+    - |
+      curl -s -X POST "https://api.telegram.org/bot5933756043:AAG6cdxMAdOtN3-NQ9sfS4CdpGuS8ilASwA/sendMessage" \
+        -H "Content-Type: application/json" \
+        -d '{
+          "chat_id": "-1003144027642",
+          "text": "std-047-08 Сборка frontend завершена успешно!",
+          "parse_mode": "markdown"
+            }'
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"  
+  when: always 
