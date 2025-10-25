@@ -1,5 +1,7 @@
 #GitlabCI
 
+#image: node:17-alpine
+
 workflow:
   rules:
     - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
@@ -11,7 +13,12 @@ stages:
   - build
   - deploy
 
+variables:
+  image_repository: docker.io/my-docker-id/myapp
+  image_tag: v1.0
+
 run_tests:
+  image: node:17-alpine
   only: #Выполнение только для основной ветки
     - main
   stage: test
@@ -24,4 +31,7 @@ run_tests:
   after_script:
     - echo "Clean temp files.."
 
-1:18:28
+build:
+  stage: build
+  script:
+    -echo "building image $image_repository:$image_tag"
