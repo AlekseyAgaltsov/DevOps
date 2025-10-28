@@ -1,9 +1,5 @@
 #!/bin/bash
 
-git clone https://github.com/alekseyagaltsov/devops.git
-git status
-git checkout -b feature/database-connection #create new branch
-
 Базовые операции:
 git init [название проекта]             #Создание репозитория в текущей директории
 git clone [url-адрес]                   #Скачать удаленный репозиторий
