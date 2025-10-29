@@ -39,3 +39,8 @@ build:
   stage: build
   script:
     -echo "building image $image_repository:$image_tag"
+
+####
+dependencies: #Загрузит артефакты из предыдущего задания например номер версии
+  - build_image #Откуда получить артефакт
+
