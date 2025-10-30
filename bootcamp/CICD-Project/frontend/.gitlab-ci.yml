@@ -1,0 +1,30 @@
+include: 
+  - project: mymicroservice-cicd/ci-templates
+    ref: main
+    file:
+      - build.yml
+      - deploy-k8s.yml
+
+
+variables:
+  MICRO_SERVICE: frontend
+  SERVICE_VERSION: "1.3"
+  SERVICE_PORT: 3000
+  REPLICAS: 2
+
+stages:
+ - build
+ - deploy
+
+build:
+  tags: 
+    - remote
+    - group
+    - shell
+
+deploy:
+  tags: 
+    - remote
+    - group
+    - shell
+

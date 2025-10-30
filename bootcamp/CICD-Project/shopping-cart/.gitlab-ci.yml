@@ -1,0 +1,29 @@
+include: 
+  - project: mymicroservice-cicd/ci-templates
+    ref: main
+    file:
+      - build.yml
+      - deploy-k8s.yml
+
+
+variables:
+  MICRO_SERVICE: shopping-cart
+  SERVICE_VERSION: "2.1"
+  SERVICE_PORT: 3002
+  REPLICAS: 4
+
+stages:
+ - build
+ - deploy
+
+build:
+  tags: 
+    - remote
+    - group
+    - shell
+
+deploy:
+  tags: 
+    - remote
+    - group
+    - shell
