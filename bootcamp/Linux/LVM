@@ -1,0 +1,39 @@
+#!/bin/bash
+
+lsblk -f
+sudo fdisk -l
+sudo fdisk /dev/vdb
+>print
+>g #создадим таблицу разделов типа GPT (GUID Partition Table)
+>n #создание раздела
+>w #запись изменений
+sudo partprobe #перечитать информацию с диска о разделах
+
+sudo pvcreate /dev/vdb1 /dev/vdb2
+sudo pvs
+sudo pvdisplay
+sudo vgcreate sausage-store /dev/vdb1 /dev/vdb2 #создание группы томов
+sudo vgs
+sudo vgdisplay
+
+sudo lvcreate -l +100%FREE -n logs sausage-store #Создадим логический том используя группу sausage-store
+sudo lvs
+sudo lvdisplay
+
+/etc/fstab >> /dev/mapper/sausage--store-logs    /var/sausage-store/logs    ext4    defaults 1 2
+$ sudo mount -a
+
+#sudo dd if=/dev/zero of=/var/sausage-store/logs/payload bs=1M count=2048
+
+sudo fsck.ext4 -f /dev/sausage-store/logs
+sudo lvreduce -L -500M /dev/sausage-store/logs
+sudo resize2fs -f /dev/sausage-store/logs
+
+#Перемещение тома (при переносе со старого на новый диск):
+$ pvmove -n my_vol /dev/sda1
+#Резервное копирование логического раздела:
+$ lvcreate -s -n snap -L 5g my_vg/my_vol
+#Откат:
+$ lvconvert --merge my_vol/snap
+#Удаление:
+$ lvremove /dev/my_vg/my_vol
