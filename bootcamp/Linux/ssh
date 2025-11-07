@@ -1,0 +1,34 @@
+RSA ключи
+
+RSA ключи для SSH до сих пор в ходу, но их популярность снижается.
+RSA основан на сложности факторизации больших чисел, но с развитием квантовых компьютеров и улучшением алгоритмов факторизации надёжность RSA ключей оказалась под угрозой.
+Криптосистема на основе эллиптических кривых (ECDSA) считается более надежной и менее подверженной атакам квантовыми компьютерами.
+Эллиптические кривые (ECC) обеспечивают такой же уровень безопасности, как и большинство RSA ключей, но при этом требуют меньше вычислительных ресурсов и меньшего размера ключей.
+
+$ ssh-copy-id -i $HOME/.ssh/id_ecdsa.pub <имя пользователя>@<ip сервера куда хотим получить доступ>
+
+/etc/ssh/sshd_config
+Port                            22
+Protocol                        2
+UsePAM                          yes
+PermitRootLogin                 no
+PasswordAuthentication          no
+PermitEmptyPasswords            no
+PubkeyAuthentication            yes
+AllowTcpForwarding              no
+X11Forwarding                   no
+StrictModes                     yes
+UsePAM                          yes
+PrintMotd                       no
+PrintLastLog                    no
+TCPKeepAlive                    yes
+UseDNS                          no
+LoginGraceTime                  1m
+maxauthtries                    4
+#Subsystem                      sftp internal-sftp
+AcceptEnv                       LANG LC_*
+AllowAgentForwarding            no
+ChallengeResponseAuthentication no
+AllowUsers                      ya root@IP
+
+sudo systemctl restart sshd
