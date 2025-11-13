@@ -6,3 +6,5 @@ docker run -d \
   -v gitlab_data:/var/opt/gitlab \
   --name gitlab \
   gitlab/gitlab-ce:latest
+
+docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
