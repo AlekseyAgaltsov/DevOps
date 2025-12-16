@@ -1,0 +1,35 @@
+curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+
+IAM-токен для доступа к Yandex.Cloud нужно взять тут: https://cloud.yandex.ru/docs/iam/operations/iam-token/create-for-federation.
+Обратите внимание: хранить полученный токен, как и другую чувствительную информацию, в системе контроля версий — плохая практика.
+Лучше использовать специальные приложения для хранения ключей или переменные окружения.
+Terraform-провайдер для Yandex Cloud может прочитать значение токена из переменной окружения со специальным именем — YC_TOKEN.
+Срок жизни IAM-токена — 12 часов. По истечении этого времени необходимо его перевыпустить.
+
+yc init --federation-id=<идентификатор_федерации>
+
+$ export YC_TOKEN=<ВАШ IAM ТОКЕН>
+
+Перед выполнением заданий с Terraform, вам нужно сделать пару дополнительных шагов:
+Скачать Terraform из зеркала Yandex.Cloud.
+После загрузки добавить путь к папке с исполняемым файлом в переменную PATH:
+
+export PATH=$PATH:/path/to/terraform
+
+Указать источник установки провайдера, добавив следующую конфигурацию в файл ~/.terraformrc (если такого файла нет на вашей машине, его нужно создать):
+
+
+provider_installation {
+  network_mirror {
+    url = "https://terraform-mirror.yandexcloud.net/"
+    include = ["registry.terraform.io/*/*"]
+  }
+  direct {
+    exclude = ["registry.terraform.io/*/*"]
+  }
+}
+Дальше выполнять задание по уроку, ориентируясь на инструкцию Yandex.Cloud, в которой есть все необходимые подробности.
+
+
+yc iam create-token
+export YC_TOKEN="
